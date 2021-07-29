@@ -1,0 +1,36 @@
+{
+  "name": "ng-dynamic-component",
+  "version": "0.0.0-semantically-released",
+  "author": "Alex Malkevich <malkevich.alex@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gund/ng-dynamic-component.git"
+  },
+  "keywords": [
+    "angular",
+    "angular2",
+    "ng",
+    "dynamic",
+    "component",
+    "input",
+    "output",
+    "life-cycle"
+  ],
+  "peerDependencies": {
+    "@angular/common": "^12.0.0",
+    "@angular/core": "^12.0.0",
+    "rxjs": "^6.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
+  "main": "bundles/ng-dynamic-component.umd.js",
+  "module": "fesm2015/ng-dynamic-component.js",
+  "es2015": "fesm2015/ng-dynamic-component.js",
+  "esm2015": "esm2015/ng-dynamic-component.js",
+  "fesm2015": "fesm2015/ng-dynamic-component.js",
+  "typings": "ng-dynamic-component.d.ts",
+  "metadata": "ng-dynamic-component.metadata.json",
+  "sideEffects": false
+}

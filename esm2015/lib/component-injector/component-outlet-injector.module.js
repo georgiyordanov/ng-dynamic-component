@@ -1,0 +1,13 @@
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ComponentOutletInjectorDirective } from './component-outlet-injector.directive';
+export class ComponentOutletInjectorModule {
+}
+ComponentOutletInjectorModule.decorators = [
+    { type: NgModule, args: [{
+                imports: [CommonModule],
+                exports: [ComponentOutletInjectorDirective],
+                declarations: [ComponentOutletInjectorDirective],
+            },] }
+];
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY29tcG9uZW50LW91dGxldC1pbmplY3Rvci5tb2R1bGUuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi8uLi8uLi9wcm9qZWN0cy9uZy1keW5hbWljLWNvbXBvbmVudC9zcmMvbGliL2NvbXBvbmVudC1pbmplY3Rvci9jb21wb25lbnQtb3V0bGV0LWluamVjdG9yLm1vZHVsZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxPQUFPLEVBQUUsWUFBWSxFQUFFLE1BQU0saUJBQWlCLENBQUM7QUFDL0MsT0FBTyxFQUFFLFFBQVEsRUFBRSxNQUFNLGVBQWUsQ0FBQztBQUV6QyxPQUFPLEVBQUUsZ0NBQWdDLEVBQUUsTUFBTSx1Q0FBdUMsQ0FBQztBQU96RixNQUFNLE9BQU8sNkJBQTZCOzs7WUFMekMsUUFBUSxTQUFDO2dCQUNSLE9BQU8sRUFBRSxDQUFDLFlBQVksQ0FBQztnQkFDdkIsT0FBTyxFQUFFLENBQUMsZ0NBQWdDLENBQUM7Z0JBQzNDLFlBQVksRUFBRSxDQUFDLGdDQUFnQyxDQUFDO2FBQ2pEIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgQ29tbW9uTW9kdWxlIH0gZnJvbSAnQGFuZ3VsYXIvY29tbW9uJztcbmltcG9ydCB7IE5nTW9kdWxlIH0gZnJvbSAnQGFuZ3VsYXIvY29yZSc7XG5cbmltcG9ydCB7IENvbXBvbmVudE91dGxldEluamVjdG9yRGlyZWN0aXZlIH0gZnJvbSAnLi9jb21wb25lbnQtb3V0bGV0LWluamVjdG9yLmRpcmVjdGl2ZSc7XG5cbkBOZ01vZHVsZSh7XG4gIGltcG9ydHM6IFtDb21tb25Nb2R1bGVdLFxuICBleHBvcnRzOiBbQ29tcG9uZW50T3V0bGV0SW5qZWN0b3JEaXJlY3RpdmVdLFxuICBkZWNsYXJhdGlvbnM6IFtDb21wb25lbnRPdXRsZXRJbmplY3RvckRpcmVjdGl2ZV0sXG59KVxuZXhwb3J0IGNsYXNzIENvbXBvbmVudE91dGxldEluamVjdG9yTW9kdWxlIHt9XG4iXX0=

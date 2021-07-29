@@ -1,0 +1,49 @@
+import { Directive, Inject, Input, Optional, } from '@angular/core';
+import { DynamicComponentInjectorToken, } from '../component-injector';
+import { IoService } from '../io';
+// tslint:disable-next-line: no-conflicting-lifecycle
+export class DynamicIoDirective {
+    constructor(ioService, componentInjector) {
+        this.ioService = ioService;
+        this.componentInjector = componentInjector;
+        this.ioService.init(this.componentInjector);
+    }
+    get inputs() {
+        return this.ndcDynamicInputs || this.ngComponentOutletNdcDynamicInputs;
+    }
+    get outputs() {
+        return this.ndcDynamicOutputs || this.ngComponentOutletNdcDynamicOutputs;
+    }
+    ngOnChanges(changes) {
+        this.ioService.update(this.inputs, this.outputs, this.inputsChanged(changes), this.outputsChanged(changes));
+    }
+    ngDoCheck() {
+        this.ioService.maybeUpdate();
+    }
+    inputsChanged(changes) {
+        return ('ngComponentOutletNdcDynamicInputs' in changes ||
+            'ndcDynamicInputs' in changes);
+    }
+    outputsChanged(changes) {
+        return ('ngComponentOutletNdcDynamicOutputs' in changes ||
+            'ndcDynamicOutputs' in changes);
+    }
+}
+DynamicIoDirective.decorators = [
+    { type: Directive, args: [{
+                selector: '[ndcDynamicInputs],[ndcDynamicOutputs],[ngComponentOutletNdcDynamicInputs],[ngComponentOutletNdcDynamicOutputs]',
+                providers: [IoService],
+            },] }
+];
+/** @nocollapse */
+DynamicIoDirective.ctorParameters = () => [
+    { type: IoService },
+    { type: undefined, decorators: [{ type: Inject, args: [DynamicComponentInjectorToken,] }, { type: Optional }] }
+];
+DynamicIoDirective.propDecorators = {
+    ndcDynamicInputs: [{ type: Input }],
+    ngComponentOutletNdcDynamicInputs: [{ type: Input }],
+    ndcDynamicOutputs: [{ type: Input }],
+    ngComponentOutletNdcDynamicOutputs: [{ type: Input }]
+};
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZHluYW1pYy1pby5kaXJlY3RpdmUuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi8uLi8uLi9wcm9qZWN0cy9uZy1keW5hbWljLWNvbXBvbmVudC9zcmMvbGliL2R5bmFtaWMtaW8vZHluYW1pYy1pby5kaXJlY3RpdmUudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEsT0FBTyxFQUNMLFNBQVMsRUFFVCxNQUFNLEVBQ04sS0FBSyxFQUVMLFFBQVEsR0FFVCxNQUFNLGVBQWUsQ0FBQztBQUV2QixPQUFPLEVBRUwsNkJBQTZCLEdBQzlCLE1BQU0sdUJBQXVCLENBQUM7QUFDL0IsT0FBTyxFQUFjLFNBQVMsRUFBZSxNQUFNLE9BQU8sQ0FBQztBQUUzRCxxREFBcUQ7QUFNckQsTUFBTSxPQUFPLGtCQUFrQjtJQWtCN0IsWUFDVSxTQUFvQixFQUdwQixpQkFBNEM7UUFINUMsY0FBUyxHQUFULFNBQVMsQ0FBVztRQUdwQixzQkFBaUIsR0FBakIsaUJBQWlCLENBQTJCO1FBRXBELElBQUksQ0FBQyxTQUFTLENBQUMsSUFBSSxDQUFDLElBQUksQ0FBQyxpQkFBaUIsQ0FBQyxDQUFDO0lBQzlDLENBQUM7SUFmRCxJQUFZLE1BQU07UUFDaEIsT0FBTyxJQUFJLENBQUMsZ0JBQWdCLElBQUksSUFBSSxDQUFDLGlDQUFpQyxDQUFDO0lBQ3pFLENBQUM7SUFFRCxJQUFZLE9BQU87UUFDakIsT0FBTyxJQUFJLENBQUMsaUJBQWlCLElBQUksSUFBSSxDQUFDLGtDQUFrQyxDQUFDO0lBQzNFLENBQUM7SUFXRCxXQUFXLENBQUMsT0FBc0I7UUFDaEMsSUFBSSxDQUFDLFNBQVMsQ0FBQyxNQUFNLENBQ25CLElBQUksQ0FBQyxNQUFNLEVBQ1gsSUFBSSxDQUFDLE9BQU8sRUFDWixJQUFJLENBQUMsYUFBYSxDQUFDLE9BQU8sQ0FBQyxFQUMzQixJQUFJLENBQUMsY0FBYyxDQUFDLE9BQU8sQ0FBQyxDQUM3QixDQUFDO0lBQ0osQ0FBQztJQUVELFNBQVM7UUFDUCxJQUFJLENBQUMsU0FBUyxDQUFDLFdBQVcsRUFBRSxDQUFDO0lBQy9CLENBQUM7SUFFTyxhQUFhLENBQUMsT0FBc0I7UUFDMUMsT0FBTyxDQUNMLG1DQUFtQyxJQUFJLE9BQU87WUFDOUMsa0JBQWtCLElBQUksT0FBTyxDQUM5QixDQUFDO0lBQ0osQ0FBQztJQUVPLGNBQWMsQ0FBQyxPQUFzQjtRQUMzQyxPQUFPLENBQ0wsb0NBQW9DLElBQUksT0FBTztZQUMvQyxtQkFBbUIsSUFBSSxPQUFPLENBQy9CLENBQUM7SUFDSixDQUFDOzs7WUF6REYsU0FBUyxTQUFDO2dCQUNULFFBQVEsRUFDTixpSEFBaUg7Z0JBQ25ILFNBQVMsRUFBRSxDQUFDLFNBQVMsQ0FBQzthQUN2Qjs7OztZQVBvQixTQUFTOzRDQTRCekIsTUFBTSxTQUFDLDZCQUE2QixjQUNwQyxRQUFROzs7K0JBcEJWLEtBQUs7Z0RBRUwsS0FBSztnQ0FFTCxLQUFLO2lEQUVMLEtBQUsiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQge1xuICBEaXJlY3RpdmUsXG4gIERvQ2hlY2ssXG4gIEluamVjdCxcbiAgSW5wdXQsXG4gIE9uQ2hhbmdlcyxcbiAgT3B0aW9uYWwsXG4gIFNpbXBsZUNoYW5nZXMsXG59IGZyb20gJ0Bhbmd1bGFyL2NvcmUnO1xuXG5pbXBvcnQge1xuICBEeW5hbWljQ29tcG9uZW50SW5qZWN0b3IsXG4gIER5bmFtaWNDb21wb25lbnRJbmplY3RvclRva2VuLFxufSBmcm9tICcuLi9jb21wb25lbnQtaW5qZWN0b3InO1xuaW1wb3J0IHsgSW5wdXRzVHlwZSwgSW9TZXJ2aWNlLCBPdXRwdXRzVHlwZSB9IGZyb20gJy4uL2lvJztcblxuLy8gdHNsaW50OmRpc2FibGUtbmV4dC1saW5lOiBuby1jb25mbGljdGluZy1saWZlY3ljbGVcbkBEaXJlY3RpdmUoe1xuICBzZWxlY3RvcjpcbiAgICAnW25kY0R5bmFtaWNJbnB1dHNdLFtuZGNEeW5hbWljT3V0cHV0c10sW25nQ29tcG9uZW50T3V0bGV0TmRjRHluYW1pY0lucHV0c10sW25nQ29tcG9uZW50T3V0bGV0TmRjRHluYW1pY091dHB1dHNdJyxcbiAgcHJvdmlkZXJzOiBbSW9TZXJ2aWNlXSxcbn0pXG5leHBvcnQgY2xhc3MgRHluYW1pY0lvRGlyZWN0aXZlIGltcGxlbWVudHMgT25DaGFuZ2VzLCBEb0NoZWNrIHtcbiAgQElucHV0KClcbiAgbmRjRHluYW1pY0lucHV0czogSW5wdXRzVHlwZTtcbiAgQElucHV0KClcbiAgbmdDb21wb25lbnRPdXRsZXROZGNEeW5hbWljSW5wdXRzOiBJbnB1dHNUeXBlO1xuICBASW5wdXQoKVxuICBuZGNEeW5hbWljT3V0cHV0czogT3V0cHV0c1R5cGU7XG4gIEBJbnB1dCgpXG4gIG5nQ29tcG9uZW50T3V0bGV0TmRjRHluYW1pY091dHB1dHM6IE91dHB1dHNUeXBlO1xuXG4gIHByaXZhdGUgZ2V0IGlucHV0cygpIHtcbiAgICByZXR1cm4gdGhpcy5uZGNEeW5hbWljSW5wdXRzIHx8IHRoaXMubmdDb21wb25lbnRPdXRsZXROZGNEeW5hbWljSW5wdXRzO1xuICB9XG5cbiAgcHJpdmF0ZSBnZXQgb3V0cHV0cygpIHtcbiAgICByZXR1cm4gdGhpcy5uZGNEeW5hbWljT3V0cHV0cyB8fCB0aGlzLm5nQ29tcG9uZW50T3V0bGV0TmRjRHluYW1pY091dHB1dHM7XG4gIH1cblxuICBjb25zdHJ1Y3RvcihcbiAgICBwcml2YXRlIGlvU2VydmljZTogSW9TZXJ2aWNlLFxuICAgIEBJbmplY3QoRHluYW1pY0NvbXBvbmVudEluamVjdG9yVG9rZW4pXG4gICAgQE9wdGlvbmFsKClcbiAgICBwcml2YXRlIGNvbXBvbmVudEluamVjdG9yPzogRHluYW1pY0NvbXBvbmVudEluamVjdG9yLFxuICApIHtcbiAgICB0aGlzLmlvU2VydmljZS5pbml0KHRoaXMuY29tcG9uZW50SW5qZWN0b3IpO1xuICB9XG5cbiAgbmdPbkNoYW5nZXMoY2hhbmdlczogU2ltcGxlQ2hhbmdlcykge1xuICAgIHRoaXMuaW9TZXJ2aWNlLnVwZGF0ZShcbiAgICAgIHRoaXMuaW5wdXRzLFxuICAgICAgdGhpcy5vdXRwdXRzLFxuICAgICAgdGhpcy5pbnB1dHNDaGFuZ2VkKGNoYW5nZXMpLFxuICAgICAgdGhpcy5vdXRwdXRzQ2hhbmdlZChjaGFuZ2VzKSxcbiAgICApO1xuICB9XG5cbiAgbmdEb0NoZWNrKCkge1xuICAgIHRoaXMuaW9TZXJ2aWNlLm1heWJlVXBkYXRlKCk7XG4gIH1cblxuICBwcml2YXRlIGlucHV0c0NoYW5nZWQoY2hhbmdlczogU2ltcGxlQ2hhbmdlcyk6IGJvb2xlYW4ge1xuICAgIHJldHVybiAoXG4gICAgICAnbmdDb21wb25lbnRPdXRsZXROZGNEeW5hbWljSW5wdXRzJyBpbiBjaGFuZ2VzIHx8XG4gICAgICAnbmRjRHluYW1pY0lucHV0cycgaW4gY2hhbmdlc1xuICAgICk7XG4gIH1cblxuICBwcml2YXRlIG91dHB1dHNDaGFuZ2VkKGNoYW5nZXM6IFNpbXBsZUNoYW5nZXMpOiBib29sZWFuIHtcbiAgICByZXR1cm4gKFxuICAgICAgJ25nQ29tcG9uZW50T3V0bGV0TmRjRHluYW1pY091dHB1dHMnIGluIGNoYW5nZXMgfHxcbiAgICAgICduZGNEeW5hbWljT3V0cHV0cycgaW4gY2hhbmdlc1xuICAgICk7XG4gIH1cbn1cbiJdfQ==
